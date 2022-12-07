@@ -46,13 +46,37 @@ class AppLibrary(IRepository):
     def PrintBook(self, book: Book):
         print(str(book.id) + " " + book.title + " " + str(book.year) + " " + book.author)
 
-
     def FindBy(self, word: str):
         book_list = self.GetAll()
         for val in book_list:
             if word in val.title or word in str(val.year) or word in val.author:
                 self.PrintBook(val)
                 continue
+    
+    def Update(self):
+        try:
+            id = input("Type book id (back to go back): ")
+            title_inpt: str = input("Type book title (back to not add): ")
+            if title_inpt == "back":
+                return
+            year_input: int = input("Type book year (back to not add): ")
+            if year_input == "back":
+                return
+            author_input: str = input("Type book author (back to not add): ")
+            if author_input == "back":
+                return
+            
+
+            #self.cur.execute("UPDATE books SET title = ?, year = ?, author = ? WHERE id = ?", (title_inpt, year_input, author_input, id))
+            sql_update_query = """Update books set title = ?, year = ?, author = ? where id = ?"""
+            data = (title_inpt, year_input, author_input, id)
+            self.cur.execute(sql_update_query, data)
+            self.con.commit()
+
+        except sqlite3.Error as error:
+            print("Ошибка при работе с SQLite", error)
+            
+        
 
     #деструктор
     def __del__(self):
@@ -68,13 +92,25 @@ while True:
     inpt = input("Type one of the ecommands: add, remove, getbyid, getall, find, savepdf, exit: ")
 
     if inpt == "add":
+        title_inpt: str = input("Type book title (back to not add): ")
+        if title_inpt == "back":
+            continue
+        year_input: int = input("Type book year (back to not add): ")
+        if year_input == "back":
+            continue
+        author_input: str = input("Type book author (back to not add): ")
+        if author_input == "back":
+            continue
         newbook = Book(
-            input("Type book title: "),
-            input("Type book year: "),
-            input("Type book author: ")
+            title_inpt,
+            year_input,
+            author_input
         )
         lib.Add(newbook)
-    
+
+    elif inpt == "update":
+        lib.Update()
+
     elif inpt == "remove":
         lib.RemoveAt(input("Type book id: "))
         
