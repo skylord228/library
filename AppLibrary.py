@@ -59,8 +59,8 @@ class AppLibrary(IRepository):
             title_inpt: str = input("Type book title (back to not add): ")
             if title_inpt == "back":
                 return
-            year_input: int = input("Type book year (back to not add): ")
-            if year_input == "back":
+            year_input = input("Type book year (back to not add): ")
+            if year_input == "back" or not year_input.isdigit():
                 return
             author_input: str = input("Type book author (back to not add): ")
             if author_input == "back":
@@ -89,14 +89,14 @@ class AppLibrary(IRepository):
 book = Book("MyBook",1984,"Alexander Ivanov Ivanovich")
 lib = AppLibrary()
 while True:
-    inpt = input("Type one of the ecommands: add, remove, getbyid, getall, find, savepdf, exit: ")
+    inpt = input("Type one of the ecommands: add, remove, getbyid, getall, find, savepdf, update, exit: ")
 
     if inpt == "add":
         title_inpt: str = input("Type book title (back to not add): ")
         if title_inpt == "back":
             continue
-        year_input: int = input("Type book year (back to not add): ")
-        if year_input == "back":
+        year_input= input("Type book year (back to not add): ")
+        if year_input == "back" or not year_input.isdigit():
             continue
         author_input: str = input("Type book author (back to not add): ")
         if author_input == "back":

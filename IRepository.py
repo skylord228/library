@@ -2,9 +2,6 @@ from abc import ABC, abstractmethod
 from Book import Book
 class IRepository(ABC):
 
-    phoneNumber: str
-    emailAdress: str
-
     @abstractmethod
     def Add(self, book: Book):
         pass
@@ -18,5 +15,8 @@ class IRepository(ABC):
     def GetAll(self):
         pass
     @abstractmethod
-    def FindBy(self):
+    def FindBy(self, word: str):
+        pass
+    @abstractmethod
+    def Update(self):
         pass
